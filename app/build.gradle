@@ -1,13 +1,14 @@
+//noinspection GradleCompatible
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion '25.0.2'
+    compileSdkVersion 23
+    buildToolsVersion '25.0.0'
 
     defaultConfig {
         applicationId "com.google.android.apps.watchme"
-        minSdkVersion 25
-        targetSdkVersion 25
+        minSdkVersion 21
+        targetSdkVersion 22
         versionCode 1
         versionName "1.0"
 
@@ -16,22 +17,15 @@ android {
         }
     }
 
+
+     /**
+      * Error Fixed.
+      * > Error: Your project contains C++ files but it is not using a supported native build system.
+      * Consider using CMake or ndk-build integration with the stable Android Gradle plugin:
+      */
     sourceSets{
         main{
             jni.srcDirs=[]
-        }
-    }
-
-    splits {
-
-        abi {
-            enable true
-
-            reset()
-
-            include "x86", "armeabi-v7a"
-
-            universalApk true
         }
     }
 
@@ -42,20 +36,32 @@ android {
         }
     }
 
-    // Encapsulates your external native build configurations.
-    externalNativeBuild {
+    splits {
 
-        // Encapsulates your CMake build configurations.
+        // Configures multiple APKs based on ABI.
+        abi {
+
+            // Enables building multiple APKs per ABI.
+            enable true
+
+            // By default all ABIs are included, so use reset() and include to specify that we only
+            // want APKs for x86, armeabi-v7a, and mips.
+
+            // Resets the list of ABIs that Gradle should create APKs for to none.
+            reset()
+
+            // Specifies a list of ABIs that Gradle should create APKs for.
+            include "x86", "armeabi-v7a"
+
+            // Specifies that we do not want to also generate a universal APK that includes all ABIs.
+            universalApk true
+        }
     }
-
 }
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    
-    compile 'com.google.android.gms:play-services-plus:7.8.0'
-    compile 'com.google.android.gms:play-services-base:7.8.0'
-    compile 'com.google.android.gms:play-services-maps:7.8.0'
-
+    compile 'com.google.android.gms:play-services-plus:6.5.87'
     compile 'com.android.support:support-v4:23.0.0'
     compile 'com.android.support:design:23.0.0'
     compile 'com.google.apis:google-api-services-youtube:v3-rev120-1.19.0'
@@ -64,4 +70,5 @@ dependencies {
     compile 'com.google.api-client:google-api-client-gson:+'
     compile 'com.mcxiaoke.volley:library:1.0.18'
     compile 'com.google.code.gson:gson:2.3'
+
 }

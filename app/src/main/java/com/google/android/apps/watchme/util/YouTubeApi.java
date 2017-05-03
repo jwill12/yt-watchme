@@ -51,8 +51,7 @@ public class YouTubeApi {
         // We need a date that's in the proper ISO format and is in the future,
         // since the API won't
         // create events that start in the past.
-        SimpleDateFormat dateFormat = new SimpleDateFormat(
-                "yyyy-MM-dd'T'HH:mm:ss'Z'");
+        SimpleDateFormat dateFormat = new SimpleDateFormat ("yyyy-MM-dd'T'HH:mm:ss'Z'");
         dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
         long futureDateMillis = System.currentTimeMillis()
                 + FUTURE_DATE_OFFSET_MILLIS;
@@ -177,7 +176,10 @@ public class YouTubeApi {
             throws IOException {
 
         try {
-            Thread.sleep(10000);
+            // $edsonAndrade
+            // thread.sleep was changed to 20000 due to issues that the app needing and not having
+            // enough time to find a live youtube stream thread to connect to.
+            Thread.sleep(20000);
         } catch (InterruptedException e) {
             Log.e(MainActivity.APP_NAME, "", e);
         }

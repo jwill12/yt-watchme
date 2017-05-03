@@ -109,7 +109,7 @@ class Preview extends ViewGroup implements SurfaceHolder.Callback {
         // The Surface has been created, acquire the camera and tell it where
         // to draw.
         try {
-            setCamera(Utils.getCamera(Camera.CameraInfo.CAMERA_FACING_FRONT));
+            setCamera(Utils.getCamera(Camera.CameraInfo.CAMERA_FACING_BACK));
             if (camera != null) {
                 camera.setPreviewDisplay(holder);
             }

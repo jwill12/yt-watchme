@@ -30,7 +30,10 @@
         android:name="android.hardware.camera"
         android:required="false"></uses-feature>
     <uses-feature
-        android:name="android.hardware.camera.front"
+        android:name="android.hardware.camera.Rear"
+        android:required="false"></uses-feature>
+    <uses-feature
+        android:name="android.hardware.camera.Front"
         android:required="false"></uses-feature>
 
     <application

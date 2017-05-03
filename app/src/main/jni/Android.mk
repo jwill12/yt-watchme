@@ -11,6 +11,9 @@
 # or implied. See the License for the specific language governing permissions and limitations under
 # the License.
 
+
+# set NDK_PROJECT_PATH := /home/gary/Android/adt-bundle-linux-x86_64-20140702/eclipse/workspace/MainActivity/jni
+
 WORKING_DIR := $(call my-dir)
 
 include $(CLEAR_VARS)
@@ -29,6 +32,7 @@ LOCAL_SRC_FILES := VbrTag.c \
                    gain_analysis.c \
                    id3tag.c \
                    lame.c \
+                   mpglib_interface.c \
                    newmdct.c \
                    presets.c \
                    psymodel.c \
@@ -41,17 +45,31 @@ LOCAL_SRC_FILES := VbrTag.c \
                    util.c \
                    vbrquantize.c \
                    version.c
+                   
+
+#include $(BUILD_STATIC_LIBRARY)
 
 include $(BUILD_STATIC_LIBRARY)
 
+#include $(CLEAR_VARS)
+#LOCAL_MODULE  := mp3lame_a
+#LOCAL_STATIC_LIBRARIES := lame
+
+#include $(BUILD_EXECUTABLE) 
 
 include $(CLEAR_VARS)
 LOCAL_PATH := $(WORKING_DIR)
 LOCAL_MODULE    := ffmpeg
-LOCAL_CFLAGS := -DHAVE_AV_CONFIG_H -std=c99 -D__STDC_CONSTANT_MACROS -DSTDC_HEADERS
+LOCAL_CFLAGS := -DHAVE_AV_CONFIG_H -std=c99 -D__STDC_CONSTANT_MACROS -DSTDC_HEADERS -Wno-deprecated-declarations
 LOCAL_SRC_FILES := ffmpeg-jni.c
-LOCAL_C_INCLUDES := $(WORKING_DIR)/../third_party/include
+LOCAL_C_INCLUDES := $(WORKING_DIR)/libavcodec $(WORKING_DIR)/libavcodec/arm $(WORKING_DIR)/libavformat $(WORKING_DIR)/libavutil $(WORKING_DIR)/libavutil/arm
+
 LOCAL_STATIC_LIBRARIES := lame
+
 LOCAL_LDLIBS := -llog -lm -lz $(WORKING_DIR)/../third_party/lib/libavformat.a $(WORKING_DIR)/../third_party/lib/libavcodec.a $(WORKING_DIR)/../third_party/lib/libavfilter.a $(WORKING_DIR)/../third_party/lib/libavresample.a $(WORKING_DIR)/../third_party/lib/libswscale.a $(WORKING_DIR)/../third_party/lib/libavutil.a $(WORKING_DIR)/../third_party/lib/libx264.a $(WORKING_DIR)/../third_party/lib/libpostproc.a $(WORKING_DIR)/../third_party/lib/libswresample.a $(WORKING_DIR)/../third_party/lib/libfdk-aac.a
+
 APP_OPTIM := release
+
 include $(BUILD_SHARED_LIBRARY)
+
+

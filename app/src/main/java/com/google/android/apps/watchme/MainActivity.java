@@ -49,6 +49,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.jar.Manifest;
 
 /**
  * @author Ibrahim Ulukaya <ulukaya@google.com>
@@ -78,6 +79,7 @@ public class MainActivity extends Activity implements
         setContentView(R.layout.activity_main);
 
         ensureLoader();
+
 
         credential = GoogleAccountCredential.usingOAuth2(
                 getApplicationContext(), Arrays.asList(Utils.SCOPES));
