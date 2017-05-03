@@ -14,9 +14,14 @@
 
 package com.google.android.apps.watchme;
 
+import android.content.Context;
 import android.graphics.ImageFormat;
-import android.hardware.Camera;
-import android.hardware.Camera.Size;
+import android.graphics.SurfaceTexture;
+import android.hardware.camera2.*;
+import android.hardware.camera2.params.StreamConfigurationMap;
+import android.util.Size;
+//import android.hardware.Camera;
+//import android.hardware.Camera.Size;
 
 /**
  * @author Ibrahim Ulukaya <ulukaya@google.com>
@@ -25,8 +30,10 @@ import android.hardware.Camera.Size;
  */
 public class VideoFrameGrabber {
     // Member variables
-    private Camera camera;
+//    private Camera camera;
+    private CameraManager cameraManager;
     private FrameCallback frameCallback;
+    String cameraIDs;
 
     public void setFrameCallback(FrameCallback callback) {
         frameCallback = callback;
@@ -38,9 +45,23 @@ public class VideoFrameGrabber {
      * @param camera - Camera to be recorded.
      * @return preview size.
      */
-    public Size start(Camera camera) {
-        this.camera = camera;
+    public Size start(CameraManager camera) {
+        cameraManager = camera;
 
+        CameraManager cameraManager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
+        try {
+            for (String cameraIDs : cameraManager.getCameraIdList()) {
+                CameraCharacteristics cameraCharacteristics = cameraManager.getCameraCharacteristics(cameraIDs);
+                if(cameraCharacteristics.get(CameraCharacteristics.LENS_FACING)== CameraCharacteristics.LENS_FACING_FRONT){
+                    continue;
+                }
+                StreamConfigurationMap map = cameraCharacteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
+
+                previewSize = chooseOptimalSize(map.getOutputSizes(SurfaceTexture.class),rotatedWidth, rotatedHeight);
+                cameraId = cameraIDs;
+
+
+        CameraCharacteristics cameraCharacteristics = cameraManager.getCameraCharacteristics(cameraIDs);
         Camera.Parameters params = camera.getParameters();
         params.setPreviewSize(StreamerActivity.CAMERA_WIDTH, StreamerActivity.CAMERA_HEIGHT);
         camera.setParameters(params);

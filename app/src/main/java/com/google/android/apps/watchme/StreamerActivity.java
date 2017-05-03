@@ -21,21 +21,41 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
-import android.hardware.Camera;
+import android.graphics.SurfaceTexture;
+//import android.hardware.Camera;
+import android.hardware.camera2.CameraAccessException;
+import android.hardware.camera2.CameraCaptureSession;
+import android.hardware.camera2.CameraCharacteristics;
+import android.hardware.camera2.CameraDevice;
+import android.hardware.camera2.CameraManager;
+import android.hardware.camera2.CaptureRequest;
+import android.hardware.camera2.params.StreamConfigurationMap;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.HandlerThread;
 import android.os.IBinder;
 import android.os.PowerManager;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
+import android.util.Size;
+import android.util.SparseIntArray;
+import android.view.Surface;
+import android.view.TextureView;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.ImageButton;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.google.android.apps.watchme.util.Utils;
 import com.google.android.apps.watchme.util.YouTubeApi;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -53,8 +73,195 @@ public class StreamerActivity extends Activity {
     // Member variables
     private StreamerService streamerService;
     private PowerManager.WakeLock wakeLock;
-    private Preview preview;
+    //    private Preview preview;
     private String rtmpUrl;
+    private TextureView textureView;
+    private TextureView.SurfaceTextureListener surfaceTextureListener = new TextureView.SurfaceTextureListener() {
+        @Override
+        public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
+            //@edsonAndrade
+            // Notification when TextView is available
+            //Toast.makeText(getApplicationContext(),"TextureView is available", Toast.LENGTH_SHORT).show();
+            setupCamera(width, height);
+            connectCamera();
+        }
+
+        @Override
+        public void onSurfaceTextureSizeChanged(SurfaceTexture surface, int width, int height) {
+
+        }
+
+        @Override
+        public boolean onSurfaceTextureDestroyed(SurfaceTexture surface) {
+            return false;
+        }
+
+        @Override
+        public void onSurfaceTextureUpdated(SurfaceTexture surface) {
+
+        }
+    };
+
+    private CameraDevice cameraDevice;
+    private CameraDevice.StateCallback cameraDeviceCallback = new CameraDevice.StateCallback() {
+        @Override
+        public void onOpened(@NonNull CameraDevice camera) {
+            cameraDevice = camera;
+            startPreview();
+            //@edsonAndrade
+            // notification when camera is connetected
+            //Toast.makeText(getApplicationContext(), "The Camera is now connected.", Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void onDisconnected(@NonNull CameraDevice camera) {
+            //@edsonAndrade
+            //This is to clean up the resources when not in use
+            camera.close();
+            cameraDevice = null;
+        }
+
+        @Override
+        public void onError(@NonNull CameraDevice camera, int error) {
+            //@edsonAndrade
+            //This is to clean up the resources when not in use
+            camera.close();
+            cameraDevice = null;
+        }
+    };
+
+    private HandlerThread backgroundHandlerThread;
+    private Handler backgroundHandler;
+    private String cameraId;
+    private Size previewSize;
+
+    private CaptureRequest.Builder captureRequestBuilder;
+
+    private ImageButton recordImageButtton;
+    //@edsonAndrade
+    // The camera when starting will automatically record from the start just like it did before
+    private boolean isRecording = true;
+
+    private static SparseIntArray ORIENTATIONS = new SparseIntArray();
+    static {
+        ORIENTATIONS.append(Surface.ROTATION_0,0);
+        ORIENTATIONS.append(Surface.ROTATION_90,90);
+        ORIENTATIONS.append(Surface.ROTATION_180,180);
+        ORIENTATIONS.append(Surface.ROTATION_270,270);
+    }
+
+
+
+    public void closeCamera(){
+        if(cameraDevice != null){
+            //@edsonAndrade
+            //This is to clean up the resources when not in use
+            cameraDevice.close();
+            cameraDevice = null;
+        }
+    }
+    @Override
+    protected void onResume() {
+        Log.d(MainActivity.APP_NAME, "onResume");
+
+        super.onResume();
+        //@edsonAndrade
+        startBackgroundThread();
+
+        // @edsonAndrade
+        // Checking if the textView is available
+        if(textureView.isAvailable()){
+            setupCamera(textureView.getWidth(),textureView.getHeight());
+            connectCamera();
+        }else{
+            textureView.setSurfaceTextureListener(surfaceTextureListener);
+        }
+
+        if (streamerService != null) {
+            restoreStateFromService();
+        }
+    }
+    @Override
+    protected void onPause() {
+        Log.d(MainActivity.APP_NAME, "onPause");
+
+        if (streamerService != null) {
+            streamerService.releaseCamera();
+        }
+
+        closeCamera();
+        stopBackgroundThread();
+        super.onPause();
+    }
+
+    private void setupCamera(int width, int height){
+        CameraManager cameraManager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
+        try {
+            for (String cameraIDs : cameraManager.getCameraIdList()) {
+                CameraCharacteristics cameraCharacteristics = cameraManager.getCameraCharacteristics(cameraIDs);
+                if(cameraCharacteristics.get(CameraCharacteristics.LENS_FACING)== CameraCharacteristics.LENS_FACING_FRONT){
+                    continue;
+                }
+                StreamConfigurationMap map = cameraCharacteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
+                //@edsonAndrade
+                // Alike the camera api version of the app, I am forcing the app into the landscape mode
+                int deviceOrientation = getWindowManager().getDefaultDisplay().getRotation();
+                int totalRotation = sensorToDeeviceRotation(cameraCharacteristics, deviceOrientation);
+                boolean swapRotation = totalRotation == 90 || totalRotation == 270;
+                int rotatedWidth = width;
+                int rotatedHeight = height;
+                if(swapRotation){
+                    rotatedHeight = width;
+                    rotatedWidth = height;
+                }
+                previewSize = chooseOptimalSize(map.getOutputSizes(SurfaceTexture.class),rotatedWidth, rotatedHeight);
+                cameraId = cameraIDs;
+                return;
+            }
+        }catch (CameraAccessException e){
+            e.printStackTrace();
+        }
+    }
+
+    private void connectCamera(){
+        CameraManager cameraManager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
+        try {
+            cameraManager.openCamera(cameraId, cameraDeviceCallback, backgroundHandler);
+        } catch (CameraAccessException e) {
+            e.printStackTrace();
+        }
+    }
+    void startPreview(){
+        SurfaceTexture surfaceTexture = textureView.getSurfaceTexture();
+        surfaceTexture.setDefaultBufferSize(previewSize.getWidth(), previewSize.getHeight());
+        Surface previewSurface = new Surface(surfaceTexture);
+        try {
+            captureRequestBuilder = cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
+            captureRequestBuilder.addTarget(previewSurface);
+
+            cameraDevice.createCaptureSession(Arrays.asList(previewSurface),
+                    new CameraCaptureSession.StateCallback() {
+                        @Override
+                        public void onConfigured(@NonNull CameraCaptureSession session) {
+                            try{
+                                session.setRepeatingRequest(captureRequestBuilder.build(), null, backgroundHandler);
+                            }catch (CameraAccessException e){
+                                e.printStackTrace();
+                            }
+                        }
+
+                        @Override
+                        public void onConfigureFailed(@NonNull CameraCaptureSession session) {
+                            Toast.makeText(getApplicationContext(),"The preview failed to setup", Toast.LENGTH_SHORT).show();
+                        }
+                    }, null);
+
+        }catch(CameraAccessException e){
+            e.printStackTrace();
+        }
+    }
+
+
     private ServiceConnection streamerConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName className, IBinder service) {
@@ -93,50 +300,38 @@ public class StreamerActivity extends Activity {
         Log.i(MainActivity.APP_NAME, String.format("Got RTMP URL '%s' from calling activity.", rtmpUrl));
 
         setContentView(R.layout.streamer);
-        preview = (Preview) findViewById(R.id.surfaceViewPreview);
+        // @edsonAndrade
+        //Setting the textview as the main video display for camera2 api
+        textureView = (TextureView) findViewById(R.id.surfaceViewPreview);
+        //preview = (Preview) findViewById(R.id.surfaceViewPreview);
 
         if (!bindService(new Intent(this, StreamerService.class), streamerConnection,
                 BIND_AUTO_CREATE | BIND_DEBUG_UNBIND)) {
             Log.e(MainActivity.APP_NAME, "Failed to bind StreamerService!");
         }
 
-        final ToggleButton toggleButton = (ToggleButton) findViewById(R.id.toggleBroadcasting);
-        toggleButton.setOnClickListener(new OnClickListener() {
+        recordImageButtton = (ImageButton) findViewById(R.id.toggleBroadcasting);
+        recordImageButtton.setOnClickListener(new View.OnClickListener(){
             @Override
-            public void onClick(View v) {
-                if (toggleButton.isChecked()) {
-                    streamerService.startStreaming(rtmpUrl);
-                } else {
-                    streamerService.stopStreaming();
+            public void onClick(View v){
+                if(isRecording){
+                    isRecording = false;
+                    //recordImageButtton.setImageResource(R.mipmap.);
                 }
             }
         });
-    }
 
-    @Override
-    protected void onResume() {
-        Log.d(MainActivity.APP_NAME, "onResume");
-
-        super.onResume();
-
-        if (streamerService != null) {
-            restoreStateFromService();
-        }
-    }
-
-    @Override
-    protected void onPause() {
-        Log.d(MainActivity.APP_NAME, "onPause");
-
-        super.onPause();
-
-        if (preview != null) {
-            preview.setCamera(null);
-        }
-
-        if (streamerService != null) {
-            streamerService.releaseCamera();
-        }
+        final ToggleButton switchCamera = (ToggleButton) findViewById(R.id.button);
+        switchCamera.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (switchCamera.isChecked()) {
+//                    streamerService.startStreaming(rtmpUrl);
+               } else {
+//                    streamerService.stopStreaming();
+                }
+            }
+        });
     }
 
     @Override
@@ -157,7 +352,7 @@ public class StreamerActivity extends Activity {
     }
 
     private void restoreStateFromService() {
-        preview.setCamera(Utils.getCamera(Camera.CameraInfo.CAMERA_FACING_FRONT));
+//        preview.setCamera(Utils.getCamera(Camera.CameraInfo.CAMERA_FACING_FRONT));
     }
 
     private void startStreaming() {
@@ -179,12 +374,12 @@ public class StreamerActivity extends Activity {
                 if (ActivityCompat.shouldShowRequestPermissionRationale(this,
                         Manifest.permission.CAMERA)) {
                     // Provide rationale in Snackbar to request permission
-                    Snackbar.make(preview, R.string.permission_camera_rationale,
-                            Snackbar.LENGTH_INDEFINITE).show();
+//                    Snackbar.make(preview, R.string.permission_camera_rationale,
+//                            Snackbar.LENGTH_INDEFINITE).show();
                 } else {
                     // Explain in Snackbar to turn on permission in settings
-                    Snackbar.make(preview, R.string.permission_camera_explain,
-                            Snackbar.LENGTH_INDEFINITE).show();
+//                    Snackbar.make(preview, R.string.permission_camera_explain,
+//                            Snackbar.LENGTH_INDEFINITE).show();
                 }
             }
             if (hasMicPermission != PackageManager.PERMISSION_GRANTED) {
@@ -192,12 +387,12 @@ public class StreamerActivity extends Activity {
                 if (ActivityCompat.shouldShowRequestPermissionRationale(this,
                         Manifest.permission.RECORD_AUDIO)) {
                     // Provide rationale in Snackbar to request permission
-                    Snackbar.make(preview, R.string.permission_microphone_rationale,
-                            Snackbar.LENGTH_INDEFINITE).show();
+//                    Snackbar.make(preview, R.string.permission_microphone_rationale,
+//                            Snackbar.LENGTH_INDEFINITE).show();
                 } else {
                     // Explain in Snackbar to turn on permission in settings
-                    Snackbar.make(preview, R.string.permission_microphone_explain,
-                            Snackbar.LENGTH_INDEFINITE).show();
+//                    Snackbar.make(preview, R.string.permission_microphone_explain,
+//                            Snackbar.LENGTH_INDEFINITE).show();
                 }
             }
             if (!permissions.isEmpty()) {
@@ -228,9 +423,9 @@ public class StreamerActivity extends Activity {
                     streamerService.startStreaming(rtmpUrl);
                 } else {
                     Log.i(MainActivity.APP_NAME, "Camera with mic permissions were NOT granted.");
-                    Snackbar.make(preview, R.string.permissions_not_granted,
-                            Snackbar.LENGTH_SHORT)
-                            .show();
+//                    Snackbar.make(preview, R.string.permissions_not_granted,
+//                            Snackbar.LENGTH_SHORT)
+//                            .show();
                 }
                 break;
             }
@@ -238,7 +433,7 @@ public class StreamerActivity extends Activity {
             // other 'switch' lines to check for other
             // permissions this app might request
         }
-        return;
+        // return;
     }
 
 
@@ -264,6 +459,52 @@ public class StreamerActivity extends Activity {
             getParent().setResult(Activity.RESULT_OK, data);
         }
         finish();
+    }
+    private void startBackgroundThread(){
+        backgroundHandlerThread = new HandlerThread("YT-WatchMe");
+        backgroundHandlerThread.start();
+        backgroundHandler = new Handler(backgroundHandlerThread.getLooper());
+    }
+    private void stopBackgroundThread(){
+        backgroundHandlerThread.quitSafely();
+        try{
+            backgroundHandlerThread.join();
+            backgroundHandlerThread = null;
+            backgroundHandler = null;
+        }catch (InterruptedException e){
+            e.printStackTrace();
+        }
+    }
+
+    private static int sensorToDeeviceRotation(CameraCharacteristics cameraCharacteristics, int deviceOrientation ){
+        int sensorOrientation = cameraCharacteristics.get(CameraCharacteristics.SENSOR_ORIENTATION);
+        deviceOrientation = ORIENTATIONS.get(deviceOrientation);
+        return (sensorOrientation + deviceOrientation + 360)%360;
+
+    }
+    private static Size chooseOptimalSize(Size[] choices, int width, int height){
+        List<Size> bigEnough = new ArrayList<Size>();
+        for(Size option : choices){
+            if(option.getHeight() == option.getWidth() * height / width &&
+                    option.getWidth() >= width && option.getHeight() >= height){
+                bigEnough.add(option);
+            }
+        }
+        if(bigEnough.size() >0){
+            return Collections.min(bigEnough, new CompareSizeByArea());
+        }else{
+            return choices[0];
+        }
+    }
+
+    private static class CompareSizeByArea implements Comparator<Size>{
+
+        @Override
+        public int compare(Size lhs, Size rhs){
+            return Long.signum((long) lhs.getWidth() * lhs.getHeight() /
+                    (long) rhs.getWidth() * rhs.getHeight());
+        }
+
     }
 
 }

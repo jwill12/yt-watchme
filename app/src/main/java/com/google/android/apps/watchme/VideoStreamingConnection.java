@@ -14,13 +14,16 @@
 
 package com.google.android.apps.watchme;
 
-import android.hardware.Camera;
-import android.hardware.Camera.Size;
+//import android.hardware.Camera;
+//import android.hardware.Camera.Size;
+import android.hardware.camera2.*;
+
 import android.util.Log;
+import android.util.Size;
 import android.view.Surface;
 
 
-public class VideoStreamingConnection implements VideoStreamingInterface {
+public class VideoStreamingConnection {
     // CONSTANTS.
     private static final int AUDIO_SAMPLE_RATE = 44100;
 
