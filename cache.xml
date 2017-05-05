@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="true"
+        jar="/Users/Wilbertiny/.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/2.3/5fc52c41ef0239d1093a1eb7c3697036183677ce/gson-2.3.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="5fc52c41ef0239d1093a1eb7c3697036183677ce">
+        <dex dex="/Users/Wilbertiny/Downloads/yt-watchmeMAX/app/build/intermediates/transforms/dex/debug/folders/1000/10/gson-2.3_5b94bc2d6a5e1d23910db05533578e4928e6058c/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Wilbertiny/.android/build-cache/6f68916124d2ed3198f0d25e63e7d75a68655c63/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="2491ae1b2a848af1f4f0c795f3117c1bd6a1989f">
+        <dex dex="/Users/Wilbertiny/Downloads/yt-watchmeMAX/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_f2ccca3841a0569940afd81df99cbeba77269c89/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Wilbertiny/.gradle/caches/modules-2/files-2.1/com.mcxiaoke.volley/library/1.0.18/38da306aafee11459cd935a01d2c92a98dc670a4/library-1.0.18.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="38da306aafee11459cd935a01d2c92a98dc670a4">
+        <dex dex="/Users/Wilbertiny/Downloads/yt-watchmeMAX/app/build/intermediates/transforms/dex/debug/folders/1000/10/library-1.0.18_f839bb90dd2f7718835696737d0390bcf2f74228/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Wilbertiny/.gradle/caches/modules-2/files-2.1/com.google.api-client/google-api-client/1.22.0/244350c0c845c583717ade13f5666a452fd0cfa/google-api-client-1.22.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="0244350c0c845c583717ade13f5666a452fd0cfa">
+        <dex dex="/Users/Wilbertiny/Downloads/yt-watchmeMAX/app/build/intermediates/transforms/dex/debug/folders/1000/10/google-api-client-1.22.0_b097e338225f1f7d9942e37e523c014c8ea6db61/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Wilbertiny/.android/build-cache/e3695f45988e42bcb9d645c7ebe0e4f8e71bc06f/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="c0c912d58c9468b1f9d9769c8975afdf2c85d681">
+        <dex dex="/Users/Wilbertiny/Downloads/yt-watchmeMAX/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_c2ad4d330536ac23b754b528f33635c51d4cfe2f/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Wilbertiny/.android/build-cache/81695d710a31b38cf2c141646105e9b76864a7de/output/jars/libs/internal_impl-23.0.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="8bd336eeae661e8311330284897ee07f8ebaa297">
+        <dex dex="/Users/Wilbertiny/Downloads/yt-watchmeMAX/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-23.0.0_2c65c2c1c99e7bea38952b0ed960038e07f79437/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Wilbertiny/Downloads/yt-watchmeMAX/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="510aa6efc159983dfbffa676a0dae37568c0a46f">
+        <dex dex="/Users/Wilbertiny/Downloads/yt-watchmeMAX/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_35050e6896c3c9e3aa8bc0cd92d04f9767d34444/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Wilbertiny/.gradle/caches/modules-2/files-2.1/com.google.api-client/google-api-client-android/1.22.0/7a0fe12b7d8189a821934d6f9d6586d00180e461/google-api-client-android-1.22.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="7a0fe12b7d8189a821934d6f9d6586d00180e461">
+        <dex dex="/Users/Wilbertiny/Downloads/yt-watchmeMAX/app/build/intermediates/transforms/dex/debug/folders/1000/10/google-api-client-android-1.22.0_e332db6abbf6623238a6acbe2b7c75877aa3d670/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Wilbertiny/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/23.0.0/support-annotations-23.0.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="990e7f98a7bad86a40b1f0bcfeb039023afd0839">
+        <dex dex="/Users/Wilbertiny/Downloads/yt-watchmeMAX/app/build/intermediates/transforms/dex/debug/folders/1000/10/support-annotations-23.0.0_62c4265d94d06dc4f7b5fa77129ec117ea8327e7/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Wilbertiny/.gradle/caches/modules-2/files-2.1/com.google.api-client/google-api-client-gson/1.22.0/ca557a4630f5d4690f008fe32231c7f41701c35d/google-api-client-gson-1.22.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="ca557a4630f5d4690f008fe32231c7f41701c35d">
+        <dex dex="/Users/Wilbertiny/Downloads/yt-watchmeMAX/app/build/intermediates/transforms/dex/debug/folders/1000/10/google-api-client-gson-1.22.0_c0165a13f2726f60f3f1cf09594a4e8f388cb926/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Wilbertiny/.gradle/caches/modules-2/files-2.1/com.google.http-client/google-http-client-android/1.22.0/6d1e1a76a16a244ab2f41775791be1dd0ec2878a/google-http-client-android-1.22.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="6d1e1a76a16a244ab2f41775791be1dd0ec2878a">
+        <dex dex="/Users/Wilbertiny/Downloads/yt-watchmeMAX/app/build/intermediates/transforms/dex/debug/folders/1000/10/google-http-client-android-1.22.0_6950dee61a322c858c694b46a9464c7998e9bf89/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Wilbertiny/Downloads/yt-watchmeMAX/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="8a4b26817817b21e203c017db99bb9ced16455e5">
+        <dex dex="/Users/Wilbertiny/Downloads/yt-watchmeMAX/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_9af5df92e1feab1d44968dbd901b4566d2be9029/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Wilbertiny/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.core/jackson-core/2.1.3/f6c3aed1cdfa21b5c1737c915186ea93a95a58bd/jackson-core-2.1.3.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="f6c3aed1cdfa21b5c1737c915186ea93a95a58bd">
+        <dex dex="/Users/Wilbertiny/Downloads/yt-watchmeMAX/app/build/intermediates/transforms/dex/debug/folders/1000/10/jackson-core-2.1.3_2054dbc6e4863f3ab4ea18269098a961ed61269f/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Wilbertiny/.gradle/caches/modules-2/files-2.1/com.google.oauth-client/google-oauth-client/1.22.0/1d63f369ac78e4838a3197147012026e791008cb/google-oauth-client-1.22.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="1d63f369ac78e4838a3197147012026e791008cb">
+        <dex dex="/Users/Wilbertiny/Downloads/yt-watchmeMAX/app/build/intermediates/transforms/dex/debug/folders/1000/10/google-oauth-client-1.22.0_f3549be63ed7b750812490b052a8ab042082b5e6/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Wilbertiny/.gradle/caches/modules-2/files-2.1/com.google.code.findbugs/jsr305/1.3.9/40719ea6961c0cb6afaeb6a921eaa1f6afd4cfdf/jsr305-1.3.9.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="40719ea6961c0cb6afaeb6a921eaa1f6afd4cfdf">
+        <dex dex="/Users/Wilbertiny/Downloads/yt-watchmeMAX/app/build/intermediates/transforms/dex/debug/folders/1000/10/jsr305-1.3.9_8d5ee724068e884de401d0ad7c293d6b3fc5e642/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Wilbertiny/.gradle/caches/modules-2/files-2.1/com.google.http-client/google-http-client-gson/1.22.0/826b874fa410a8135b7094c469951bf0dadb0c10/google-http-client-gson-1.22.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="826b874fa410a8135b7094c469951bf0dadb0c10">
+        <dex dex="/Users/Wilbertiny/Downloads/yt-watchmeMAX/app/build/intermediates/transforms/dex/debug/folders/1000/10/google-http-client-gson-1.22.0_0342174945dab069274ba59efb7ba6a0b55637b3/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Wilbertiny/.android/build-cache/b702976531e14fbd6246edf7e7dc0852b681c750/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="4fcf0b1879f8caf497c073e1432d398e9e2988c1">
+        <dex dex="/Users/Wilbertiny/Downloads/yt-watchmeMAX/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_08b20f1a34c3348d70bbe5250814d3d38d38dc04/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Wilbertiny/.gradle/caches/modules-2/files-2.1/com.google.apis/google-api-services-youtube/v3-rev120-1.19.0/9befa937f06683ea4b038fc8667ec41f4480677f/google-api-services-youtube-v3-rev120-1.19.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="9befa937f06683ea4b038fc8667ec41f4480677f">
+        <dex dex="/Users/Wilbertiny/Downloads/yt-watchmeMAX/app/build/intermediates/transforms/dex/debug/folders/1000/10/google-api-services-youtube-v3-rev120-1.19.0_1c5e6a7c07b978a720da941f7e0b189d68a0de0f/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Wilbertiny/.gradle/caches/modules-2/files-2.1/com.google.http-client/google-http-client/1.22.0/d441fc58329c4a4c067acec04ac361627f66ecc8/google-http-client-1.22.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="d441fc58329c4a4c067acec04ac361627f66ecc8">
+        <dex dex="/Users/Wilbertiny/Downloads/yt-watchmeMAX/app/build/intermediates/transforms/dex/debug/folders/1000/10/google-http-client-1.22.0_9009a0e2c9dd54c5d529e0b306fa0f5089636012/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Wilbertiny/.gradle/caches/modules-2/files-2.1/com.google.guava/guava-jdk5/17.0/463f8378feba44df7ba7cd9272d01837dad62b36/guava-jdk5-17.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="463f8378feba44df7ba7cd9272d01837dad62b36">
+        <dex dex="/Users/Wilbertiny/Downloads/yt-watchmeMAX/app/build/intermediates/transforms/dex/debug/folders/1000/10/guava-jdk5-17.0_1d7dabb9a2245004f3fb56e52792b7d8bd140c2b/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Wilbertiny/.android/build-cache/3407fc10298f15666d3460bd18fdca2228398d96/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="8a5238e4bdcd6568b82db669d41817de670586b8">
+        <dex dex="/Users/Wilbertiny/Downloads/yt-watchmeMAX/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_e48c275c0e5a19cdeabfea5e2c1a5fa3c5780327/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Wilbertiny/.android/build-cache/eb4957c98aa3da020a07cffe2f7b8251bdd727cf/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="cb6fab7a71fa9ec1f483d44c5fca65ab469d8aca">
+        <dex dex="/Users/Wilbertiny/Downloads/yt-watchmeMAX/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_c289b4498338b65d81082146cb348d37921f01dd/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Wilbertiny/.android/build-cache/81695d710a31b38cf2c141646105e9b76864a7de/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="8413c27b45b7fe61dca4a98159f65e2cee215f5a">
+        <dex dex="/Users/Wilbertiny/Downloads/yt-watchmeMAX/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_d268ab1b4977b72995b7c8fd3bce6c01c262bb51/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Wilbertiny/.gradle/caches/modules-2/files-2.1/com.google.http-client/google-http-client-jackson2/1.22.0/cc014d64ae11117e159d334c99d9c246d9b36f44/google-http-client-jackson2-1.22.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="cc014d64ae11117e159d334c99d9c246d9b36f44">
+        <dex dex="/Users/Wilbertiny/Downloads/yt-watchmeMAX/app/build/intermediates/transforms/dex/debug/folders/1000/10/google-http-client-jackson2-1.22.0_c72a55e1c3fe2b91ef36c3d7367a5f561d9ead1c/classes.dex" />
+    </item>
+
+</items>
